@@ -1,0 +1,8 @@
+<resources>
+    <string name="app_name">Let Us Test Something</string>
+
+    <string name="hello_world">Enter URL</string>
+    <string name="button_text">Go!</string>
+    <string name="back_button_text">Back</string>
+    <string name="forward_button_text">Forward</string>
+</resources>
