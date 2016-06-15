@@ -1,7 +1,6 @@
 package com.test.wvabrinskas.testapplication;
 
 import android.content.Context;
-import android.net.Uri;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
@@ -15,12 +14,10 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
 
-import com.google.android.gms.appindexing.Action;
 import com.google.android.gms.appindexing.AppIndex;
 import com.google.android.gms.common.api.GoogleApiClient;
 
 public class MainActivity extends AppCompatActivity {
-
     private static final String TAG = "Scrolling";
 
     //UI elements
@@ -32,6 +29,10 @@ public class MainActivity extends AppCompatActivity {
 
     //animations
     public Animation animTranslateOut;
+    public Animation animTranslateIn;
+    public Animation animScaleIn;
+    public Animation animScaleOut;
+
     /**
      * ATTENTION: This was auto-generated to implement the App Indexing API.
      * See https://g.co/AppIndexing/AndroidStudio for more information.
@@ -53,6 +54,12 @@ public class MainActivity extends AppCompatActivity {
 
         //set animations
         animTranslateOut = AnimationUtils.loadAnimation(this, R.anim.translate_out);
+        animTranslateIn = AnimationUtils.loadAnimation(this, R.anim.translate_in);
+        animTranslateOut.setFillAfter(true);
+        animTranslateIn.setFillAfter(true);
+
+      //  animTranslateOut.setAnimationListener(animationListenerOut());
+      //  animTranslateIn.setAnimationListener(animationListenerIn());
 
         //set buttons from activity_main.xml interface
         goButton = (Button) findViewById(R.id.navigate);
@@ -65,6 +72,7 @@ public class MainActivity extends AppCompatActivity {
         webView = (ObservableWebView) findViewById(R.id.webView);
         WebSettings settings = webView.getSettings();
         settings.setJavaScriptEnabled(true);
+
 
         webView.setWebViewClient(new WebViewClient() {
             @Override
@@ -80,19 +88,43 @@ public class MainActivity extends AppCompatActivity {
         webView.setOnScrollChangedCallback(new ObservableWebView.OnScrollChangedCallback() {
 
             int oldT = 0;
+            boolean animatedOut = false;
+            boolean animatedIn = true;
 
             public void onScroll(int l, int t) {
 
-                if (t > oldT) {
+                if (t > oldT && !animatedOut) {
+
+                    animatedOut = true;
+                    animatedIn = false;
+
                     //animate the UI here when scrolling down - hide
-                    backButton.setAnimation(animTranslateOut);
-                    forwardButton.setAnimation(animTranslateOut);
-                    goButton.setAnimation(animTranslateOut);
-                    urlNav.setAnimation(animTranslateOut);
-                } else {
+                    backButton.startAnimation(animTranslateOut);
+                    forwardButton.startAnimation(animTranslateOut);
+                    goButton.startAnimation(animTranslateOut);
+                    urlNav.startAnimation(animTranslateOut);
+
+                    webView.setPivotY(webView.getHeight());
+                    webView.animate().scaleY(1.15f).setDuration(1000);
+
+                } else if (t < oldT && !animatedIn) {
+
+                    animatedOut = false;
+                    animatedIn = true;
+
                     //animate the UI here when scrolling up - show
+                    backButton.startAnimation(animTranslateIn);
+                    forwardButton.startAnimation(animTranslateIn);
+                    goButton.startAnimation(animTranslateIn);
+                    urlNav.startAnimation(animTranslateIn);
+
+                    webView.animate().scaleY(1f).setDuration(1000);
+
                 }
                 oldT = t;
+                webView.forceLayout();
+
+
             }
         });
 
@@ -144,43 +176,4 @@ public class MainActivity extends AppCompatActivity {
         }
     }
 
-    @Override
-    public void onStart() {
-        super.onStart();
-
-        // ATTENTION: This was auto-generated to implement the App Indexing API.
-        // See https://g.co/AppIndexing/AndroidStudio for more information.
-        client.connect();
-        Action viewAction = Action.newAction(
-                Action.TYPE_VIEW, // TODO: choose an action type.
-                "Main Page", // TODO: Define a title for the content shown.
-                // TODO: If you have web page content that matches this app activity's content,
-                // make sure this auto-generated web page URL is correct.
-                // Otherwise, set the URL to null.
-                Uri.parse("http://host/path"),
-                // TODO: Make sure this auto-generated app URL is correct.
-                Uri.parse("android-app://com.test.wvabrinskas.testapplication/http/host/path")
-        );
-        AppIndex.AppIndexApi.start(client, viewAction);
-    }
-
-    @Override
-    public void onStop() {
-        super.onStop();
-
-        // ATTENTION: This was auto-generated to implement the App Indexing API.
-        // See https://g.co/AppIndexing/AndroidStudio for more information.
-        Action viewAction = Action.newAction(
-                Action.TYPE_VIEW, // TODO: choose an action type.
-                "Main Page", // TODO: Define a title for the content shown.
-                // TODO: If you have web page content that matches this app activity's content,
-                // make sure this auto-generated web page URL is correct.
-                // Otherwise, set the URL to null.
-                Uri.parse("http://host/path"),
-                // TODO: Make sure this auto-generated app URL is correct.
-                Uri.parse("android-app://com.test.wvabrinskas.testapplication/http/host/path")
-        );
-        AppIndex.AppIndexApi.end(client, viewAction);
-        client.disconnect();
-    }
 }
