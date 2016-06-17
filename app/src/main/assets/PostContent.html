@@ -1,0 +1,55 @@
+<html>
+<head>
+    <meta name="apple-mobile-web-app-capable" content="yes" />
+    <meta name="viewport" content="width=device-width-30, initial-scale=1"/>
+    <script src="jquery.min.js"></script>
+    <script src="iframe.js"></script>
+    <link rel='stylesheet' id='foundation-css'  href='style.css' type='text/css' media='all' />
+    <style type="text/css">
+        .broken_link, a.broken_link {
+        text-decoration: line-through;
+        }
+        html,body {
+        background-image:none;
+        background-color:#ffffff;
+        padding:0px;
+        }
+        img{
+        height:auto;
+        }
+
+    </style></head>
+<body>
+%s
+<div class="line-separator"></div>
+<div class="test"></div>
+
+</br>
+
+<!-- Start FB JS -->
+<div id="fb-root"></div>
+<script>(function(d, s, id) {
+             var js, fjs = d.getElementsByTagName(s)[0];
+             if (d.getElementById(id)) return;
+             js = d.createElement(s); js.id = id;
+             js.src = "https://connect.facebook.net/en_US/sdk.js#xfbml=1&version=v2.2";
+             fjs.parentNode.insertBefore(js, fjs);
+             }(document, 'script', 'facebook-jssdk'));</script>
+<script src="jquery.fitvids.js"></script>
+<script>!function (d, s, id) {
+      var js, fjs = d.getElementsByTagName(s)[0], p = /^http:/.test(d.location) ? 'http' : 'https';
+      if (!d.getElementById(id)) {
+          js = d.createElement(s);
+          js.id = id;
+          js.src = p + "://platform.twitter.com/widgets.js";
+          fjs.parentNode.insertBefore(js, fjs);
+      }
+		}(document, "script", "twitter-wjs");</script>
+
+<script>
+    // Basic FitVids Test
+    $("body").fitVids();
+    </script>
+<script src="facebook.js"></script>
+</body>
+</html>

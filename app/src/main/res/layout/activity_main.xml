@@ -10,50 +10,14 @@
     android:paddingBottom="@dimen/activity_vertical_margin"
     tools:context="com.test.wvabrinskas.testapplication.MainActivity">
 
-    <Button
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="@string/button_text"
-        android:id="@+id/navigate"
-        android:onClick="onButtonTap"
-        android:layout_below="@+id/browserBar"
-        android:layout_alignParentEnd="true" />
-
-    <EditText
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:id="@+id/browserBar"
-        android:layout_alignParentStart="true"
-        android:layout_toStartOf="@+id/navigate"
-        android:layout_alignEnd="@+id/navigate"
-        android:lines="1"
-        android:inputType="textUri" />
-
     <com.test.wvabrinskas.testapplication.ObservableWebView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:id="@+id/webView"
         android:layout_alignParentStart="true"
         android:layout_alignParentBottom="true"
-        android:layout_alignEnd="@+id/navigate"
-        android:layout_below="@+id/navigate"
-        android:nestedScrollingEnabled="true" />
+        android:nestedScrollingEnabled="true"
+        android:layout_alignParentEnd="true"
+        android:layout_alignParentTop="true" />
 
-    <Button
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="@string/back_button_text"
-        android:id="@+id/back_button"
-        android:layout_below="@+id/browserBar"
-        android:layout_alignParentStart="true"
-        android:onClick="back" />
-
-    <Button
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="@string/forward_button_text"
-        android:id="@+id/forward_button"
-        android:layout_alignBottom="@+id/back_button"
-        android:layout_toEndOf="@+id/back_button"
-        android:onClick="forward" />
 </RelativeLayout>

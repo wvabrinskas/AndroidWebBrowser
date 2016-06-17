@@ -1,0 +1,328 @@
+@font-face {
+    font-family: 'Merriweather Sans';
+    font-style: normal;
+    font-weight: 300;
+    src: local('Merriweather Sans Light'), local('MerriweatherSans-Light'), url(http://themes.googleusercontent.com/static/fonts/merriweathersans/v3/6LmGj5dOJopQKEkt88Gowby3qP8l_EZEfCX16eKT4TP3rGVtsTkPsbDajuO5ueQw.woff) format('woff');
+}
+
+@font-face {
+    font-family: 'Merriweather Sans';
+    font-style: normal;
+    font-weight: 400;
+    src: local('Merriweather Sans Regular'), local('MerriweatherSans-Regular'), url(http://themes.googleusercontent.com/static/fonts/merriweathersans/v3/AKu1CjQ4qnV8MUltkAX3sMoBJSyBiVuloIc8IXLz46o.woff) format('woff');
+}
+
+@font-face {
+    font-family: 'Merriweather Sans';
+    font-style: normal;
+    font-weight: 700;
+    src: local('Merriweather Sans Bold'), local('MerriweatherSans-Bold'), url(http://themes.googleusercontent.com/static/fonts/merriweathersans/v3/6LmGj5dOJopQKEkt88GowaILZ3_VFR4y34zupljc1bH3rGVtsTkPsbDajuO5ueQw.woff) format('woff');
+}
+
+@font-face {
+    font-family: 'Merriweather Sans';
+    font-style: italic;
+    font-weight: 400;
+    src: local('Merriweather Sans Italic'), local('MerriweatherSans-Italic'), url(http://themes.googleusercontent.com/static/fonts/merriweathersans/v3/3Mz4hOHzs2npRMG3B1ascbBr0pHejMAHEYQxdlZpOYc.woff) format('woff');
+}
+
+
+@font-face {
+    font-family: 'Merriweather';
+    font-style: normal;
+    font-weight: 400;
+    src: local('Merriweather'), url(http://themes.googleusercontent.com/static/fonts/merriweather/v6/RFda8w1V0eDZheqfcyQ4EKRDOzjiPcYnFooOUGCOsRk.woff) format('woff');
+}
+
+@font-face {
+    font-family: 'Merriweather';
+    font-style: normal;
+    font-weight: 700;
+    src: local('Merriweather Bold'), local('Merriweather-Bold'), url(http://themes.googleusercontent.com/static/fonts/merriweather/v6/ZvcMqxEwPfh2qDWBPxn6nhAPw1J91axKNXP_-QX9CC8.woff) format('woff');
+}
+
+@font-face {
+    font-family: 'Merriweather';
+    font-style: italic;
+    font-weight: 400;
+    src: local('Merriweather Italic'), local('Merriweather-Italic'), url(http://themes.googleusercontent.com/static/fonts/merriweather/v6/So5lHxHT37p2SS4-t60SlL52ooqJRs02xO3mONBoqeI.woff) format('woff');
+}
+
+
+
+#authorDescription {
+    font-family: 'Merriweather Sans';
+    font-weight: 300;
+    line-height: 1.3em;
+    height: 147px;
+    width: 250px;
+}
+
+@media only screen
+and (min-device-width : 768px)
+and (max-device-width : 1024px)  {
+    #authorDescription {
+        font-family: 'Merriweather Sans';
+        font-weight: 300;
+        line-height: 1.3em;
+        height: 157px;
+        width: 600px;
+    }
+    
+    
+}
+
+div.dfp_ad.dfp_ad--mobile.dfp_ad--mpu {
+    margin-left:auto;
+    margin-right:auto;
+    padding-bottom: 20px;
+    width: 300px;
+    height: 250px;
+}
+
+.EmbeddedTweet {
+    margin-left: auto;
+    margin-right:auto;
+}
+
+.postcell p {
+    font-family: 'Merriweather Sans';
+    font-size: 19px;
+    font-weight: 300;
+    line-height: 1.3em;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    height: 100%;
+}
+
+html, body {
+    font-size: 17px;
+    font-family: 'Merriweather';
+}
+
+h1 {
+    font-family: 'Merriweather Sans';
+    font-size: 34px;
+    font-weight: 400;
+    line-height: 1.3em;
+    text-transform: capitalize;
+}
+
+h2 {
+    font-family: 'Merriweather Sans';
+    font-size: 18px;
+    font-weight: 400;
+    text-transform: none;
+    line-height: 1.3em;
+}
+
+h3 {
+    font-family: 'Merriweather Sans';
+    font-size: 22px;
+    font-weight: 300;
+    line-height: 1.3em;
+    text-transform: capitalize;
+}
+
+h4 {
+    font-family: 'Merriweather Sans';
+    font-size: 18px;
+    font-weight: 300;
+    line-height: 1.3em;
+    text-transform: uppercase;
+    color: #999;
+}
+
+h5 {
+    font-family: 'Merriweather Sans';
+    font-size: 19px;
+    font-weight: 20;
+    line-height: 1.3em;
+}
+
+h6 {
+    font-family: 'Merriweather Sans';
+    font-size: 16px;
+    font-weight: 300;
+    line-height: 1.3em;
+    text-transform: capitalize;
+    clear: both;
+}
+
+
+
+/* LISTS */
+
+ul, ol {
+    font-family: 'Merriweather';
+    color: #3f3f3f;
+    font-size: 18px;
+    margin-left: 30px;
+    margin-top: 0px;
+    margin-bottom: 25px;
+}
+
+ol li {
+    margin-bottom: 15px;
+}
+
+
+hr {
+    margin: 20px auto;
+}
+
+
+
+/* QUOTES */
+
+blockquote {
+    font-family: 'Merriweather';
+    font-size: 18px;
+    font-style: italic;
+    border-left: 3px solid #4992d3;
+    padding-left: 1rem;
+    margin: 0 auto 25px;
+}
+
+blockquote p {
+    color: #999;
+    margin: 0 0 10px;
+    line-height: 1.6em;
+    font-style: italic;
+    
+}
+
+blockquote cite {
+    display: block;
+    font-size: 14px;
+    padding: 5px 0;
+}
+
+.line-separator{
+    height:1px;
+    background:#717171;
+    border-bottom:1px solid #313030;
+}
+
+/* CONTENT */
+
+a {
+    color: #4992d3;
+    text-decoration: none;
+}
+
+a:active {
+    color: #72abdd;
+    text-decoration: none;
+}
+.advertisement-notification {
+    margin-right:auto;
+    margin-left:auto;
+    color:lightgray;
+}
+
+span {
+    font-family: 'Merriweather Sans';
+    font-size: 16px;
+    font-size: 1rem;
+    display: inline-block;
+}
+
+strong {
+    display: inline-block;
+}
+
+
+
+body + .fluid-width-video-wrapper {
+    display:block;
+    width: 100%;
+    height: 100%;
+}
+
+div.twitter-video {
+    margin-right:auto !important;
+    margin-left: auto !important;
+    display: block;
+}
+
+iframe {
+    width: 100%;
+    margin-left: auto;
+    margin-right: auto;
+    max-width: 400px;
+    display:block;
+}
+
+div.fluid-video-wrapper {
+    position: relative;
+    padding-bottom: 56.25%; /* 16:9 */
+    height: 0;
+}
+
+div.fluid-video-wrapper iframe {
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100% !important;
+    max-width: 100% !important;
+}
+
+iframe[src^="https://www.facebook.com/"] {
+    width: 100%;
+    display: block;
+    max-width: 100% !important;
+}
+
+iframe[src^="http://instagram.com"] {
+    height:auto !important;
+}
+
+iframe#twitter-widget-0 {
+    display:block;
+    height: 100%;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+iframe.giphy-embed !important{
+    display:block;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+img {
+    width: 100%;
+    height:auto;
+    margin: 0 auto 25px;
+}
+
+img .alignnone {
+    width: 100%;
+    height:auto;
+}
+
+.wp-caption {
+    margin: 0 auto 25px;
+    position: relative;
+    width: 100% !important;
+}
+
+.wp-caption img {
+    margin-bottom:0;
+}
+
+.wp-caption-text {
+    font-size: 10px;
+    font-size: 0.625rem;
+    font-family: 'Merriweather Sans';
+    width: auto !important;
+    padding: 0 !important;
+    color: #999 !important;
+    margin-top: 0;
+}
+
+.wp-caption-text a {
+    color: #999 !important;
+    text-decoration: none;
+}

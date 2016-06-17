@@ -1,134 +1,85 @@
 package com.test.wvabrinskas.testapplication;
 
 import android.content.Context;
+import android.os.AsyncTask;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
-import android.view.animation.Animation;
-import android.view.animation.AnimationUtils;
 import android.view.inputmethod.InputMethodManager;
+import android.webkit.WebChromeClient;
 import android.webkit.WebSettings;
 import android.webkit.WebView;
 import android.webkit.WebViewClient;
-import android.widget.Button;
-import android.widget.EditText;
 import android.widget.Toast;
+import java.io.IOException;
+import java.util.Dictionary;
+import java.util.Scanner;
+import java.util.concurrent.ExecutionException;
 
-import com.google.android.gms.appindexing.AppIndex;
-import com.google.android.gms.common.api.GoogleApiClient;
+import com.test.wvabrinskas.testapplication.JSONParser;
+
+import org.json.JSONException;
+import org.json.JSONObject;
 
 public class MainActivity extends AppCompatActivity {
     private static final String TAG = "Scrolling";
-
+    private static final JSONParser _jsonParser = JSONParser.getInstance();
     //UI elements
     public ObservableWebView webView;
-    public EditText urlNav;
-    public Button backButton;
-    public Button forwardButton;
-    public Button goButton;
-
-    //animations
-    public Animation animTranslateOut;
-    public Animation animTranslateIn;
-    public Animation animScaleIn;
-    public Animation animScaleOut;
-
-    /**
-     * ATTENTION: This was auto-generated to implement the App Indexing API.
-     * See https://g.co/AppIndexing/AndroidStudio for more information.
-     */
-    private GoogleApiClient client;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         getSupportActionBar().hide();
-        this.setup();
-        // ATTENTION: This was auto-generated to implement the App Indexing API.
-        // See https://g.co/AppIndexing/AndroidStudio for more information.
-        client = new GoogleApiClient.Builder(this).addApi(AppIndex.API).build();
+        _jsonParser.controllerActivity = this;
+        _jsonParser.execute(new String[]{"1505947"});
     }
 
-    private void setup() {
 
-        //set animations
-        animTranslateOut = AnimationUtils.loadAnimation(this, R.anim.translate_out);
-        animTranslateIn = AnimationUtils.loadAnimation(this, R.anim.translate_in);
-        animTranslateOut.setFillAfter(true);
-        animTranslateIn.setFillAfter(true);
+    private String getPostContent() {
+        String postContent;
+        postContent = "tre";
+        return postContent;
+    }
 
-      //  animTranslateOut.setAnimationListener(animationListenerOut());
-      //  animTranslateIn.setAnimationListener(animationListenerIn());
-
-        //set buttons from activity_main.xml interface
-        goButton = (Button) findViewById(R.id.navigate);
-        forwardButton = (Button) findViewById(R.id.forward_button);
-        backButton = (Button) findViewById(R.id.back_button);
-        urlNav = (EditText) findViewById(R.id.browserBar);
-        urlNav.setText("https://google.com");
-
+    public void setup() throws JSONException {
         //enable javascript in webview at start up
         webView = (ObservableWebView) findViewById(R.id.webView);
         WebSettings settings = webView.getSettings();
         settings.setJavaScriptEnabled(true);
-
-
+        settings.setJavaScriptCanOpenWindowsAutomatically(true);
+        settings.setSupportMultipleWindows(true);
+        webView.setWebChromeClient(new WebChromeClient());
+        webView.setHorizontalScrollBarEnabled(false);
+        settings.setAllowFileAccessFromFileURLs(true);
+        settings.setLoadsImagesAutomatically(true);
         webView.setWebViewClient(new WebViewClient() {
             @Override
             public boolean shouldOverrideUrlLoading(WebView view, String url) {
-                urlNav.setText(url);
                 view.loadUrl(url);
-                hideKeyboard();
                 return false;
             }
         });
 
+        JSONObject postObject = _jsonParser.currentPostObject;
+        JSONObject post = postObject.getJSONObject("post");
 
-        webView.setOnScrollChangedCallback(new ObservableWebView.OnScrollChangedCallback() {
+        String app_content = post.getString("app_content");
 
-            int oldT = 0;
-            boolean animatedOut = false;
-            boolean animatedIn = true;
+        app_content = app_content.replace("//platform.","https://platform.");
 
-            public void onScroll(int l, int t) {
-
-                if (t > oldT && !animatedOut) {
-
-                    animatedOut = true;
-                    animatedIn = false;
-
-                    //animate the UI here when scrolling down - hide
-                    backButton.startAnimation(animTranslateOut);
-                    forwardButton.startAnimation(animTranslateOut);
-                    goButton.startAnimation(animTranslateOut);
-                    urlNav.startAnimation(animTranslateOut);
-
-                    webView.setPivotY(webView.getHeight());
-                    webView.animate().scaleY(1.15f).setDuration(1000);
-
-                } else if (t < oldT && !animatedIn) {
-
-                    animatedOut = false;
-                    animatedIn = true;
-
-                    //animate the UI here when scrolling up - show
-                    backButton.startAnimation(animTranslateIn);
-                    forwardButton.startAnimation(animTranslateIn);
-                    goButton.startAnimation(animTranslateIn);
-                    urlNav.startAnimation(animTranslateIn);
-
-                    webView.animate().scaleY(1f).setDuration(1000);
-
-                }
-                oldT = t;
-                webView.forceLayout();
-
-
-            }
-        });
-
-        webView.loadUrl(urlNav.getText().toString());
+        String content = null;
+        try {
+            content = new Scanner(getAssets().open(String.format("PostContent.html"))).useDelimiter("\\A").next();
+        } catch (IOException e) {
+            Log.d(TAG,"post content not found =( ");
+            e.printStackTrace();
+        }
+        if (content != null) {
+            webView.loadDataWithBaseURL("file:///android_asset/PostContent.html",String.format(content,app_content),"text/html",null,null);
+        }
     }
 
     private void hideKeyboard() {
@@ -145,35 +96,5 @@ public class MainActivity extends AppCompatActivity {
         return newToast;
     }
 
-    public void onButtonTap(View v) {
-        Toast myToast = Toast.makeText(getApplicationContext(), "Navigating...", Toast.LENGTH_LONG);
-        myToast.show();
-        loadWebview();
-        hideKeyboard();
-    }
-
-    public void loadWebview() {
-        String url = urlNav.getText().toString();
-        if (!url.contains("http")) {
-            url = "http://" + url;
-        }
-        webView.loadUrl(url);
-    }
-
-    public void forward(View v) {
-        if (webView.canGoForward()) {
-            webView.goForward();
-        } else {
-            getToast("Can't go forward").show();
-        }
-    }
-
-    public void back(View v) {
-        if (webView.canGoBack()) {
-            webView.goBack();
-        } else {
-            getToast("Can't go back").show();
-        }
-    }
 
 }
