@@ -29,7 +29,7 @@ public class JSONParser extends AsyncTask<String, Void, JSONObject> {
 
     private Exception exception;
 
-    private static final String getPostURL = "";
+    private static final String getPostURL = "http://api.elitedaily.com/api/get_post/?id=";
 
     private JSONParser() {
     }
