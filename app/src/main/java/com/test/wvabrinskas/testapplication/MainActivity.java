@@ -12,6 +12,7 @@ import android.webkit.WebSettings;
 import android.webkit.WebView;
 import android.webkit.WebViewClient;
 import android.widget.ProgressBar;
+import android.widget.TextView;
 import android.widget.Toast;
 import java.io.IOException;
 import java.util.Scanner;
@@ -25,11 +26,16 @@ import com.nikoyuwono.toolbarpanel.ToolbarPanelListener;
 public class MainActivity extends AppCompatActivity {
     private static final String TAG = "Scrolling";
     private static final JSONParser _jsonParser = JSONParser.getInstance();
+
+    //temporary post ID
+    private static final String postID = "1523295";
+
     //UI elements
     public ObservableWebView webView;
     public ProgressBar _loadingSpinner;
     public int progressStatus = 0;
     private Handler handler = new Handler();
+    private TextView _titleLabel;
     //custom ui elements
     private ToolbarPanelLayout _toolbar;
 
@@ -61,21 +67,29 @@ public class MainActivity extends AppCompatActivity {
             }
         }).start();
         _jsonParser.controllerActivity = this;
-        _jsonParser.execute(new String[]{"1523295"});
+        _jsonParser.execute(new String[]{postID});
+    }
+
+    private JSONObject getPost() throws JSONException {
+        JSONObject postObject = _jsonParser.currentPostObject;
+        JSONObject post = postObject.getJSONObject("post");
+        return post;
     }
 
     private String getPostContent() throws JSONException {
 
-        JSONObject postObject = _jsonParser.currentPostObject;
-        JSONObject post = postObject.getJSONObject("post");
+        JSONObject post = getPost();
         String app_content = post.getString("app_content");
-
-        app_content = app_content.replace("//platform.","https://platform.");
-
+        app_content = app_content.replace("//platform.", "https://platform.");
         return app_content;
     }
 
     public void setup() throws JSONException {
+
+        //setup labels
+        _titleLabel = (TextView) findViewById(R.id.title_text);
+        _titleLabel.setText(getPost().getString("title"));
+
         //enable javascript in webview at start up
         webView = (ObservableWebView) findViewById(R.id.webView);
         WebSettings settings = webView.getSettings();

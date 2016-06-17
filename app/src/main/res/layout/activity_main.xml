@@ -23,7 +23,8 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:theme="@style/AppTheme"
-            android:background="#ffffff">
+            android:background="#ffffff"
+            android:paddingBottom="50dp">
             //Your content here
 
             <com.test.wvabrinskas.testapplication.ObservableWebView
@@ -58,6 +59,14 @@
             android:layout_height="match_parent"
             android:background="#ccc">
             //Your panel content here
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textAppearance="?android:attr/textAppearanceMedium"
+                android:text="Post Title Will Go here!"
+                android:id="@+id/title_text"
+                android:padding="10dp" />
         </RelativeLayout>
     </com.nikoyuwono.toolbarpanel.ToolbarPanelLayout>
 
