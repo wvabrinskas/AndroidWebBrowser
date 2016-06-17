@@ -1,7 +1,7 @@
 package com.test.wvabrinskas.testapplication;
 
 import android.content.Context;
-import android.os.AsyncTask;
+import android.os.Handler;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
@@ -11,37 +11,68 @@ import android.webkit.WebChromeClient;
 import android.webkit.WebSettings;
 import android.webkit.WebView;
 import android.webkit.WebViewClient;
+import android.widget.ProgressBar;
 import android.widget.Toast;
 import java.io.IOException;
-import java.util.Dictionary;
 import java.util.Scanner;
-import java.util.concurrent.ExecutionException;
-
-import com.test.wvabrinskas.testapplication.JSONParser;
-
 import org.json.JSONException;
 import org.json.JSONObject;
+
+//Gradle library imports
+import com.nikoyuwono.toolbarpanel.ToolbarPanelLayout;
+import com.nikoyuwono.toolbarpanel.ToolbarPanelListener;
 
 public class MainActivity extends AppCompatActivity {
     private static final String TAG = "Scrolling";
     private static final JSONParser _jsonParser = JSONParser.getInstance();
     //UI elements
     public ObservableWebView webView;
+    public ProgressBar _loadingSpinner;
+    public int progressStatus = 0;
+    private Handler handler = new Handler();
+    //custom ui elements
+    private ToolbarPanelLayout _toolbar;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         getSupportActionBar().hide();
+
+        _loadingSpinner = (ProgressBar) findViewById(R.id.loading_spinner);
+        _toolbar = (ToolbarPanelLayout) findViewById(R.id.sliding_down_toolbar_layout);
+        // Start long running operation in a background thread
+        new Thread(new Runnable() {
+            public void run() {
+                while (progressStatus < 100) {
+                    progressStatus += 1;
+                    handler.post(new Runnable() {
+                        public void run() {
+                            _loadingSpinner.setProgress(progressStatus);
+                        }
+                    });
+                    try {
+                        Thread.sleep(200);
+                    } catch (InterruptedException e) {
+                        e.printStackTrace();
+                    }
+                }
+
+            }
+        }).start();
         _jsonParser.controllerActivity = this;
-        _jsonParser.execute(new String[]{"1505947"});
+        _jsonParser.execute(new String[]{"1523295"});
     }
 
+    private String getPostContent() throws JSONException {
 
-    private String getPostContent() {
-        String postContent;
-        postContent = "tre";
-        return postContent;
+        JSONObject postObject = _jsonParser.currentPostObject;
+        JSONObject post = postObject.getJSONObject("post");
+        String app_content = post.getString("app_content");
+
+        app_content = app_content.replace("//platform.","https://platform.");
+
+        return app_content;
     }
 
     public void setup() throws JSONException {
@@ -61,14 +92,14 @@ public class MainActivity extends AppCompatActivity {
                 view.loadUrl(url);
                 return false;
             }
+
+            public void onPageFinished(WebView view, String url) {
+                _loadingSpinner.setVisibility(View.INVISIBLE);
+                super.onPageFinished(view, url);
+            }
         });
 
-        JSONObject postObject = _jsonParser.currentPostObject;
-        JSONObject post = postObject.getJSONObject("post");
-
-        String app_content = post.getString("app_content");
-
-        app_content = app_content.replace("//platform.","https://platform.");
+        String app_content = getPostContent();
 
         String content = null;
         try {

@@ -1,6 +1,7 @@
 package com.test.wvabrinskas.testapplication;
 import android.os.AsyncTask;
 import android.util.Log;
+import android.view.View;
 
 import org.json.*;
 
@@ -36,7 +37,6 @@ public class JSONParser extends AsyncTask<String, Void, JSONObject> {
 
     @Override
     protected JSONObject doInBackground(String[] params) {
-        // do above Server call here
         JSONObject post = null;
         try {
             post = readJsonForPostID(params[0]);
@@ -55,6 +55,8 @@ public class JSONParser extends AsyncTask<String, Void, JSONObject> {
             Log.d("GotPost","got post"+post);
             try {
                 controllerActivity.setup();
+                controllerActivity.progressStatus = 100;
+
             } catch (JSONException e) {
                 Log.d("LoadWebview","Couldn't setup webview due to JSON parsing exception");
                 e.printStackTrace();
