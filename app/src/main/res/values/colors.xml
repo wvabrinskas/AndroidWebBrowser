@@ -2,7 +2,17 @@
 <resources>
     <color name="colorPrimary">#3F51B5</color>
     <color name="color_primary">#f16c65</color>
-    <color name="colorPrimaryDark">#999</color>
+    <color name="colorPrimaryDark">#bbb</color><!-- was #999 -->
     <color name="colorAccent">#FF4081</color>
     <color name="panel_background">#bbb</color>
+
+    <color name="facebook">#3b5998</color>
+    <color name="twitter">#4099ff</color>
+    <color name="pinterest">#c92228</color>
+    <color name="fb_messenger">#127cfa</color>
+    <color name="whatsapp">#4dc247</color>
+    <color name="sms">#0bd318</color>
+    <color name="email">#8e8e93</color>
+    <color name="browser">#5856D6</color>
+    <color name="copy">#2b2b2b</color>
 </resources>

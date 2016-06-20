@@ -2,4 +2,15 @@
     <string name="app_name">Let Us Test Something</string>
     <string name="post_title_text">Let Us Test Something</string>
     <string name="desc">Author avatar</string>
+
+    <!-- icomoon -->
+    <string name="facebook">&#xe633;</string>
+    <string name="fb_messenger">&#xe905;</string>
+    <string name="sms">&#xe900;</string>
+    <string name="email">&#xe613;</string>
+    <string name="pinterest">&#xe63a;</string>
+    <string name="twitter">&#xe63e;</string>
+    <string name="whatsapp">&#xe601;</string>
+    <string name="copy">&#xe620;</string> <!-- ed-link -->
+    <string name="browser">&#xe631;</string><!-- ed-share-box -->
 </resources>

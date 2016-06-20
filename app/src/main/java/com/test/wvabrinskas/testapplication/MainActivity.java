@@ -1,6 +1,7 @@
 package com.test.wvabrinskas.testapplication;
 
 import android.content.Context;
+import android.graphics.Typeface;
 import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.Drawable;
 import android.os.Handler;
@@ -14,14 +15,18 @@ import android.webkit.WebChromeClient;
 import android.webkit.WebSettings;
 import android.webkit.WebView;
 import android.webkit.WebViewClient;
+import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
 import java.io.IOException;
+import java.lang.reflect.Array;
 import java.util.Observable;
 import java.util.Observer;
 import java.util.Scanner;
+
+import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
@@ -38,14 +43,29 @@ public class MainActivity extends AppCompatActivity {
     //temporary post ID
     private static final String postID = "1523295";
 
+    //share buttons
+    private Button _facebookShare;
+    private Button _twitterShare;
+    private Button _pinterestShare;
+    private Button _fbMessengerShare;
+    private Button _whatsappShare;
+    private Button _smsShare;
+    private Button _copyShare;
+    private Button _browserShare;
+    private Button _emailShare;
+
     //UI elements
     public ObservableWebView webView;
     public ProgressBar _loadingSpinner;
     public int progressStatus = 0;
     private Handler handler = new Handler();
     private TextView _titleLabel;
+    private TextView _authorName;
+    private TextView _categoryLabel;
+    private TextView _toolbar_title;
     private ImageView _authorAvatarView;
     private Drawable _authorAvatar;
+    private Typeface _icomoon;
 
     //custom ui elements
     private ToolbarPanelLayout _toolbarLayout;
@@ -112,7 +132,7 @@ public class MainActivity extends AppCompatActivity {
     }
 
     public void setup() throws JSONException, IOException {
-
+        setupShareButtons();
         _authorAvatarView = (ImageView) findViewById(R.id.authorAvatar);
 
         new Thread(new Runnable() {
@@ -132,7 +152,16 @@ public class MainActivity extends AppCompatActivity {
         //setup labels
         _titleLabel = (TextView) findViewById(R.id.title_text);
         _titleLabel.setText(getPost().getString("title"));
-        _toolbar.setTitle(_titleLabel.getText());
+        _authorName = (TextView) findViewById(R.id.author_name);
+        _authorName.setText(getPost().getJSONObject("author").getString("name"));
+        _categoryLabel = (TextView) findViewById(R.id.category);
+        JSONArray categories = getPost().getJSONArray("categories");
+        JSONObject category = (JSONObject) categories.getJSONObject(0);
+        _categoryLabel.setText("in " + category.getString("title"));
+        _toolbar_title = (TextView) findViewById(R.id.toolbar_title);
+        _toolbar_title.setText(_titleLabel.getText());
+
+        //setup toolbar
         _toolbarLayout.setToolbarPanelListener(new ToolbarPanelListener() {
             @Override
             public void onPanelSlide(Toolbar toolbar, View panelView, float slideOffset) {
@@ -148,7 +177,7 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
-        //enable javascript in webview at start up
+        //setup webview
         webView = (ObservableWebView) findViewById(R.id.webView);
         WebSettings settings = webView.getSettings();
         settings.setJavaScriptEnabled(true);
@@ -183,6 +212,30 @@ public class MainActivity extends AppCompatActivity {
         if (content != null) {
             webView.loadDataWithBaseURL("file:///android_asset/PostContent.html",String.format(content,app_content),"text/html",null,null);
         }
+
+    }
+
+    private void setupShareButtons() {
+        _icomoon = Typeface.createFromAsset(getAssets(),"fonts/icomoon.ttf");
+
+        _facebookShare = (Button) findViewById(R.id.facebook_share);
+        _facebookShare.setTypeface(_icomoon);
+        _twitterShare = (Button) findViewById(R.id.twitter_share);
+        _twitterShare.setTypeface(_icomoon);
+        _pinterestShare = (Button) findViewById(R.id.pinterest_share);
+        _pinterestShare.setTypeface(_icomoon);
+        _fbMessengerShare = (Button) findViewById(R.id.fb_messenger_share);
+        _fbMessengerShare.setTypeface(_icomoon);
+        _whatsappShare = (Button) findViewById(R.id.whatsapp_share);
+        _whatsappShare.setTypeface(_icomoon);
+        _smsShare = (Button) findViewById(R.id.sms_share);
+        _smsShare.setTypeface(_icomoon);
+        _copyShare = (Button) findViewById(R.id.copy_share);
+        _copyShare.setTypeface(_icomoon);
+        _emailShare = (Button) findViewById(R.id.email_share);
+        _emailShare.setTypeface(_icomoon);
+        _browserShare = (Button) findViewById(R.id.browser_share);
+        _browserShare.setTypeface(_icomoon);
 
     }
 
