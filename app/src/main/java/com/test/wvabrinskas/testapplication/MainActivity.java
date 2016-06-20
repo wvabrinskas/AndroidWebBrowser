@@ -1,9 +1,12 @@
 package com.test.wvabrinskas.testapplication;
 
 import android.content.Context;
+import android.graphics.drawable.BitmapDrawable;
+import android.graphics.drawable.Drawable;
 import android.os.Handler;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.View;
 import android.view.inputmethod.InputMethodManager;
@@ -11,13 +14,18 @@ import android.webkit.WebChromeClient;
 import android.webkit.WebSettings;
 import android.webkit.WebView;
 import android.webkit.WebViewClient;
+import android.widget.ImageView;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
 import java.io.IOException;
+import java.util.Observable;
+import java.util.Observer;
 import java.util.Scanner;
 import org.json.JSONException;
 import org.json.JSONObject;
+
+import com.test.wvabrinskas.testapplication.ThreadObserver;
 
 //Gradle library imports
 import com.nikoyuwono.toolbarpanel.ToolbarPanelLayout;
@@ -36,8 +44,12 @@ public class MainActivity extends AppCompatActivity {
     public int progressStatus = 0;
     private Handler handler = new Handler();
     private TextView _titleLabel;
+    private ImageView _authorAvatarView;
+    private Drawable _authorAvatar;
+
     //custom ui elements
-    private ToolbarPanelLayout _toolbar;
+    private ToolbarPanelLayout _toolbarLayout;
+    private Toolbar _toolbar;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -45,8 +57,22 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
         getSupportActionBar().hide();
 
+        ThreadObserver.getInstance().addObserver("GotImageObserved", new Observer() {
+            @Override
+            public void update(Observable observable, Object data) {
+                if (data.getClass() == BitmapDrawable.class) {
+                    final BitmapDrawable img = (BitmapDrawable) data;
+                    runOnUiThread(new Runnable() {
+                        public void run() {
+                            _authorAvatarView.setImageDrawable(img);
+                        }
+                    });
+                }
+            }
+        });
         _loadingSpinner = (ProgressBar) findViewById(R.id.loading_spinner);
-        _toolbar = (ToolbarPanelLayout) findViewById(R.id.sliding_down_toolbar_layout);
+        _toolbarLayout = (ToolbarPanelLayout) findViewById(R.id.sliding_down_toolbar_layout);
+        _toolbar = (Toolbar) findViewById(R.id.toolbar);
         // Start long running operation in a background thread
         new Thread(new Runnable() {
             public void run() {
@@ -66,6 +92,7 @@ public class MainActivity extends AppCompatActivity {
 
             }
         }).start();
+
         _jsonParser.controllerActivity = this;
         _jsonParser.execute(new String[]{postID});
     }
@@ -84,11 +111,42 @@ public class MainActivity extends AppCompatActivity {
         return app_content;
     }
 
-    public void setup() throws JSONException {
+    public void setup() throws JSONException, IOException {
+
+        _authorAvatarView = (ImageView) findViewById(R.id.authorAvatar);
+
+        new Thread(new Runnable() {
+            public void run() {
+                try {
+                    _authorAvatar = _jsonParser.drawableFromUrl(getPost().getJSONObject("author").getJSONObject("avatar").getString("url"));
+                    ThreadObserver.getInstance().postNotification("GotImageObserved",_authorAvatar);
+                } catch (IOException e) {
+                    e.printStackTrace();
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+            }
+
+        }).start();
 
         //setup labels
         _titleLabel = (TextView) findViewById(R.id.title_text);
         _titleLabel.setText(getPost().getString("title"));
+        _toolbar.setTitle(_titleLabel.getText());
+        _toolbarLayout.setToolbarPanelListener(new ToolbarPanelListener() {
+            @Override
+            public void onPanelSlide(Toolbar toolbar, View panelView, float slideOffset) {
+                toolbar.getChildAt(0).setAlpha(1 - slideOffset);
+            }
+
+            @Override
+            public void onPanelOpened(Toolbar toolbar, View panelView) {
+            }
+
+            @Override
+            public void onPanelClosed(Toolbar toolbar, View panelView) {
+            }
+        });
 
         //enable javascript in webview at start up
         webView = (ObservableWebView) findViewById(R.id.webView);
@@ -125,6 +183,7 @@ public class MainActivity extends AppCompatActivity {
         if (content != null) {
             webView.loadDataWithBaseURL("file:///android_asset/PostContent.html",String.format(content,app_content),"text/html",null,null);
         }
+
     }
 
     private void hideKeyboard() {

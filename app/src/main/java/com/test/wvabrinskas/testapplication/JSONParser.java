@@ -1,4 +1,8 @@
 package com.test.wvabrinskas.testapplication;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
+import android.graphics.drawable.BitmapDrawable;
+import android.graphics.drawable.Drawable;
 import android.os.AsyncTask;
 import android.util.Log;
 import android.view.View;
@@ -10,6 +14,7 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.io.Reader;
+import java.net.HttpURLConnection;
 import java.net.URL;
 import java.nio.charset.Charset;
 import com.test.wvabrinskas.testapplication.MainActivity;
@@ -56,9 +61,11 @@ public class JSONParser extends AsyncTask<String, Void, JSONObject> {
             try {
                 controllerActivity.setup();
                 controllerActivity.progressStatus = 100;
-
             } catch (JSONException e) {
                 Log.d("LoadWebview","Couldn't setup webview due to JSON parsing exception");
+                e.printStackTrace();
+            } catch (IOException e) {
+                Log.d("LoadWebview","Couldn't setup webview due to JSON image parsing exception");
                 e.printStackTrace();
             }
         } else  {
@@ -89,6 +96,16 @@ public class JSONParser extends AsyncTask<String, Void, JSONObject> {
     }
 
 
+    public static Drawable drawableFromUrl(String url) throws IOException {
+        Bitmap x;
+
+        HttpURLConnection connection = (HttpURLConnection) new URL(url).openConnection();
+        connection.connect();
+        InputStream input = connection.getInputStream();
+
+        x = BitmapFactory.decodeStream(input);
+        return new BitmapDrawable(x);
+    }
 
     public static JSONObject readJsonForPostID(String id) throws IOException, JSONException {
         InputStream is = new URL(getPostURL.concat(id)).openStream();

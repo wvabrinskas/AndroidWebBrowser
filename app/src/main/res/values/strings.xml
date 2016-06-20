@@ -1,5 +1,5 @@
 <resources>
     <string name="app_name">Let Us Test Something</string>
     <string name="post_title_text">Let Us Test Something</string>
-
+    <string name="desc">Author avatar</string>
 </resources>
