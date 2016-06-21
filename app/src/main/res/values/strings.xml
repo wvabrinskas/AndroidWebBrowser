@@ -2,6 +2,7 @@
     <string name="app_name">Let Us Test Something</string>
     <string name="post_title_text">Let Us Test Something</string>
     <string name="desc">Author avatar</string>
+    <string name="facebook_app_id">378366428966386</string>
 
     <!-- icomoon -->
     <string name="facebook">&#xe633;</string>

@@ -21,7 +21,6 @@ import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
 import java.io.IOException;
-import java.lang.reflect.Array;
 import java.util.Observable;
 import java.util.Observer;
 import java.util.Scanner;
@@ -30,9 +29,11 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-import com.test.wvabrinskas.testapplication.ThreadObserver;
+import com.facebook.FacebookSdk;
+import com.facebook.appevents.AppEventsLogger;
 
 //Gradle library imports
+import com.facebook.share.widget.ShareButton;
 import com.nikoyuwono.toolbarpanel.ToolbarPanelLayout;
 import com.nikoyuwono.toolbarpanel.ToolbarPanelListener;
 
@@ -74,6 +75,10 @@ public class MainActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        //facebook sdk initializer
+        FacebookSdk.sdkInitialize(getApplicationContext());
+        AppEventsLogger.activateApp(this);
+
         setContentView(R.layout.activity_main);
         getSupportActionBar().hide();
 
@@ -255,6 +260,41 @@ public class MainActivity extends AppCompatActivity {
     private Toast getToast(String text) {
         Toast newToast = Toast.makeText(getApplicationContext(), text, Toast.LENGTH_LONG);
         return newToast;
+    }
+
+    //share button methods
+
+    public void shareButtonPressed(View v) {
+        ShareController.ShareType type = null;
+        if (v == _facebookShare) {
+            type = ShareController.ShareType.Facebook;
+        }
+        if (v == _twitterShare) {
+            type = ShareController.ShareType.Twitter;
+        }
+        if (v == _pinterestShare) {
+            type = ShareController.ShareType.Pinterest;
+        }
+        if (v == _whatsappShare) {
+            type = ShareController.ShareType.Whatsapp;
+        }
+        if (v == _fbMessengerShare) {
+            type = ShareController.ShareType.FBMessenger;
+        }
+        if (v == _smsShare) {
+            type = ShareController.ShareType.SMS;
+        }
+        if (v == _copyShare) {
+            type = ShareController.ShareType.Copy;
+        }
+        if (v == _browserShare) {
+            type = ShareController.ShareType.Browser;
+        }
+        if (v == _emailShare) {
+            type = ShareController.ShareType.Email;
+        }
+        ShareController shareController = ShareController.getInstance();
+        shareController.share(type,this);
     }
 
 
