@@ -129,28 +129,28 @@
                 android:layout_height="match_parent"
                 android:layout_below="@+id/authorAvatar"
                 android:layout_alignParentLeft="true"
-                android:rowOrderPreserved="false"
+                android:rowOrderPreserved="true"
                 android:id="@+id/share_button_grid"
                 android:columnOrderPreserved="false"
                 android:columnCount="3"
                 android:rowCount="3"
                 android:layout_alignParentRight="true"
-                android:alignmentMode="alignMargins"
-                android:paddingBottom="60dp"
-                android:paddingLeft="5dp"
-                android:paddingRight="5dp"
+                android:alignmentMode="alignBounds"
                 android:layout_margin="10dp"
-                android:horizontalSpacing="10dp"
-                android:verticalSpacing="10dp"
+                android:horizontalSpacing="20dp"
+                android:verticalSpacing="20dp"
                 android:clipToPadding="false"
-                android:useDefaultMargins="true">
+                android:useDefaultMargins="true"
+                android:paddingBottom="50dp"
+                android:paddingTop="150dp"
+                android:paddingLeft="30dp"
+                android:paddingRight="30dp">
 
 
                 <Button
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:id="@+id/facebook_share"
-                    android:textColor="#fff"
                     android:textSize="@dimen/share_button_font_size"
                     android:text="@string/facebook"
                     android:layout_below="@+id/authorAvatar"
@@ -158,15 +158,15 @@
                     android:layout_columnWeight="1"
                     android:layout_rowWeight="1"
                     android:background="@color/facebook"
-                    android:padding="10dp"
-                    android:layout_margin="0dp"
-                    android:layout_gravity="center" />
+                    android:maxWidth="50dp"
+                    android:maxHeight="50dp"
+                    android:textColor="#fff"
+                    android:layout_margin="10dp" />
 
                 <Button
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:id="@+id/twitter_share"
-                    android:textColor="#fff"
                     android:textSize="@dimen/share_button_font_size"
                     android:text="@string/twitter"
                     android:layout_below="@+id/authorAvatar"
@@ -174,15 +174,15 @@
                     android:layout_columnWeight="1"
                     android:layout_rowWeight="1"
                     android:background="@color/twitter"
-                    android:padding="10dp"
-                    android:layout_margin="0dp"
-                    android:layout_gravity="center" />
+                    android:maxWidth="50dp"
+                    android:maxHeight="50dp"
+                    android:textColor="#fff"
+                    android:layout_margin="10dp" />
 
                 <Button
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:id="@+id/pinterest_share"
-                    android:textColor="#fff"
                     android:textSize="@dimen/share_button_font_size"
                     android:text="@string/pinterest"
                     android:layout_below="@+id/authorAvatar"
@@ -190,15 +190,15 @@
                     android:layout_columnWeight="1"
                     android:layout_rowWeight="1"
                     android:background="@color/pinterest"
-                    android:padding="10dp"
-                    android:layout_margin="0dp"
-                    android:layout_gravity="center" />
+                    android:maxWidth="50dp"
+                    android:maxHeight="50dp"
+                    android:textColor="#fff"
+                    android:layout_margin="10dp" />
 
                 <Button
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:id="@+id/fb_messenger_share"
-                    android:textColor="#fff"
                     android:textSize="@dimen/share_button_font_size"
                     android:text="@string/fb_messenger"
                     android:layout_below="@+id/authorAvatar"
@@ -206,15 +206,15 @@
                     android:layout_columnWeight="1"
                     android:layout_rowWeight="1"
                     android:background="@color/fb_messenger"
-                    android:padding="10dp"
-                    android:layout_margin="0dp"
-                    android:layout_gravity="center" />
+                    android:maxWidth="50dp"
+                    android:maxHeight="50dp"
+                    android:textColor="#fff"
+                    android:layout_margin="10dp" />
 
                 <Button
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:id="@+id/whatsapp_share"
-                    android:textColor="#fff"
                     android:textSize="@dimen/share_button_font_size"
                     android:text="@string/whatsapp"
                     android:layout_below="@+id/authorAvatar"
@@ -222,15 +222,15 @@
                     android:layout_columnWeight="1"
                     android:layout_rowWeight="1"
                     android:background="@color/whatsapp"
-                    android:padding="10dp"
-                    android:layout_margin="0dp"
-                    android:layout_gravity="center" />
+                    android:maxWidth="50dp"
+                    android:maxHeight="50dp"
+                    android:textColor="#fff"
+                    android:layout_margin="10dp" />
 
                 <Button
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:id="@+id/email_share"
-                    android:textColor="#fff"
                     android:textSize="@dimen/share_button_font_size"
                     android:text="@string/email"
                     android:layout_below="@+id/authorAvatar"
@@ -238,15 +238,15 @@
                     android:layout_columnWeight="1"
                     android:layout_rowWeight="1"
                     android:background="@color/email"
-                    android:padding="10dp"
-                    android:layout_margin="0dp"
-                    android:layout_gravity="center" />
+                    android:maxWidth="50dp"
+                    android:maxHeight="50dp"
+                    android:textColor="#fff"
+                    android:layout_margin="10dp" />
 
                 <Button
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:id="@+id/sms_share"
-                    android:textColor="#fff"
                     android:textSize="@dimen/share_button_font_size"
                     android:text="@string/sms"
                     android:layout_below="@+id/authorAvatar"
@@ -254,15 +254,15 @@
                     android:layout_columnWeight="1"
                     android:layout_rowWeight="1"
                     android:background="@color/sms"
-                    android:padding="10dp"
-                    android:layout_margin="0dp"
-                    android:layout_gravity="center" />
+                    android:maxWidth="50dp"
+                    android:maxHeight="50dp"
+                    android:textColor="#fff"
+                    android:layout_margin="10dp" />
 
                 <Button
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:id="@+id/copy_share"
-                    android:textColor="#fff"
                     android:textSize="@dimen/share_button_font_size"
                     android:text="@string/copy"
                     android:layout_below="@+id/authorAvatar"
@@ -270,15 +270,15 @@
                     android:layout_columnWeight="1"
                     android:layout_rowWeight="1"
                     android:background="@color/copy"
-                    android:padding="10dp"
-                    android:layout_margin="0dp"
-                    android:layout_gravity="center" />
+                    android:maxWidth="50dp"
+                    android:maxHeight="50dp"
+                    android:textColor="#fff"
+                    android:layout_margin="10dp" />
 
                 <Button
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:id="@+id/browser_share"
-                    android:textColor="#fff"
                     android:textSize="@dimen/share_button_font_size"
                     android:text="@string/browser"
                     android:layout_below="@+id/authorAvatar"
@@ -286,9 +286,10 @@
                     android:layout_columnWeight="1"
                     android:layout_rowWeight="1"
                     android:background="@color/browser"
-                    android:padding="10dp"
-                    android:layout_margin="0dp"
-                    android:layout_gravity="center" />
+                    android:maxWidth="50dp"
+                    android:maxHeight="50dp"
+                    android:textColor="#fff"
+                    android:layout_margin="10dp" />
             </GridLayout>
 
         </RelativeLayout>

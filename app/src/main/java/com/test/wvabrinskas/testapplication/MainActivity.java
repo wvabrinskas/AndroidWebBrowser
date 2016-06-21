@@ -41,7 +41,7 @@ public class MainActivity extends AppCompatActivity {
     private static final JSONParser _jsonParser = JSONParser.getInstance();
 
     //temporary post ID
-    private static final String postID = "1523295";
+    private static final String postID = "1523295"; //post id with video header = 1530508
 
     //share buttons
     private Button _facebookShare;
@@ -201,6 +201,10 @@ public class MainActivity extends AppCompatActivity {
         });
 
         String app_content = getPostContent();
+        String headerImageURL = String.format("<img src='%s'/>", getPost().getJSONObject("featured_image").getJSONObject("wide-full").getString("url"));
+        if (getPost().getString("video_embed") != null && !getPost().getString("video_embed").isEmpty()) {
+            headerImageURL = getPost().getString("video_embed");
+        }
 
         String content = null;
         try {
@@ -210,7 +214,7 @@ public class MainActivity extends AppCompatActivity {
             e.printStackTrace();
         }
         if (content != null) {
-            webView.loadDataWithBaseURL("file:///android_asset/PostContent.html",String.format(content,app_content),"text/html",null,null);
+            webView.loadDataWithBaseURL("file:///android_asset/PostContent.html",String.format(content,headerImageURL,app_content),"text/html",null,null);
         }
 
     }
