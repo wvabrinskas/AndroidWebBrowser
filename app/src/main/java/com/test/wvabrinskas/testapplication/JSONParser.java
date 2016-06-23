@@ -63,7 +63,9 @@ public class JSONParser extends AsyncTask<String, Void, JSONObject> {
             currentPostObject = post;
             Log.d("GotPost","got post"+post);
             try {
-                controllerActivity.setup();
+                Post postObject = new Post(post);
+                controllerActivity.setup(postObject);
+
                 controllerActivity.progressStatus = 100;
             } catch (JSONException e) {
                 Log.d("LoadWebview","Couldn't setup webview due to JSON parsing exception");
@@ -85,20 +87,6 @@ public class JSONParser extends AsyncTask<String, Void, JSONObject> {
         }
         return sb.toString();
     }
-
-    public static void readJsonFromUrl(String url) throws IOException, JSONException {
-        InputStream is = new URL(url).openStream();
-        try {
-            BufferedReader rd = new BufferedReader(new InputStreamReader(is, Charset.forName("UTF-8")));
-            String jsonText = readAll(rd);
-            JSONObject json = new JSONObject(jsonText);
-            //return json;
-            currentPostDataObject = json;
-        } finally {
-            is.close();
-        }
-    }
-
 
     public static Drawable drawableFromUrl(String url) throws IOException {
         Bitmap x;
@@ -139,8 +127,6 @@ public class JSONParser extends AsyncTask<String, Void, JSONObject> {
             BufferedReader rd = new BufferedReader(new InputStreamReader(is, Charset.forName("UTF-8")));
             String jsonText = readAll(rd);
             JSONObject json = new JSONObject(jsonText);
-            //return json;
-           // currentPostObject = json;
             return json;
         } finally {
             is.close();

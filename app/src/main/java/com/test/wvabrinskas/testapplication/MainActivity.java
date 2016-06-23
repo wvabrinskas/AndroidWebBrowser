@@ -44,7 +44,10 @@ public class MainActivity extends AppCompatActivity {
     private static final JSONParser _jsonParser = JSONParser.getInstance();
 
     //temporary post ID
-    private static final String postID = "1523295"; //post id with video header = 1530508
+    private static final String postID = "1533007"; //post id with video header = 1530508
+
+    //post
+    private Post _currentPost;
 
     //share buttons
     private Button _facebookShare;
@@ -125,42 +128,22 @@ public class MainActivity extends AppCompatActivity {
         _jsonParser.execute(new String[]{postID});
     }
 
-    private JSONObject getPost() throws JSONException {
-        JSONObject postObject = _jsonParser.currentPostObject;
-        JSONObject post = postObject.getJSONObject("post");
-        return post;
-    }
+    public void setup(Post post) throws JSONException, IOException {
+        _currentPost = post;
 
-    private String getPostContent() throws JSONException {
-
-        JSONObject post = getPost();
-        String app_content = post.getString("app_content");
-        app_content = app_content.replace("//platform.", "https://platform.");
-        return app_content;
-    }
-
-    private String getExcerpt() throws JSONException {
-        String excerpt = getPost().getString("excerpt");
-        String html = "<html><head><style>body { padding-left:7px; padding-right:7px; }</style><link rel='stylesheet' id='foundation-css'  href='style.css' type='text/css' media='all' />\n</head><body><font color='#555' size='4px'>%s</font></body></html>";
-        return String.format(html, excerpt);
-    }
-
-    public void setup() throws JSONException, IOException {
         setupShareButtons();
         _authorAvatarView = (ImageView) findViewById(R.id.authorAvatar);
 
         _excerptView = (WebView) findViewById(R.id.excerpt_view);
         _excerptView.setBackgroundColor(Color.TRANSPARENT);
-        _excerptView.loadData(getExcerpt(), "text/html", null);
+        _excerptView.loadData(_currentPost.excerpt, "text/html", null);
 
         new Thread(new Runnable() {
             public void run() {
                 try {
-                    _authorAvatar = _jsonParser.drawableFromUrl(getPost().getJSONObject("author").getJSONObject("avatar").getString("url"));
+                    _authorAvatar = _jsonParser.drawableFromUrl(_currentPost.author.avatar);
                     ThreadObserver.getInstance().postNotification("GotImageObserved", _authorAvatar);
                 } catch (IOException e) {
-                    e.printStackTrace();
-                } catch (JSONException e) {
                     e.printStackTrace();
                 }
             }
@@ -169,13 +152,11 @@ public class MainActivity extends AppCompatActivity {
 
         //setup labels
         _titleLabel = (TextView) findViewById(R.id.title_text);
-        _titleLabel.setText(getPost().getString("title"));
+        _titleLabel.setText(_currentPost.title);
         _authorName = (TextView) findViewById(R.id.author_name);
-        _authorName.setText(getPost().getJSONObject("author").getString("name"));
+        _authorName.setText(_currentPost.author.name);
         _categoryLabel = (TextView) findViewById(R.id.category);
-        JSONArray categories = getPost().getJSONArray("categories");
-        JSONObject category = (JSONObject) categories.getJSONObject(0);
-        _categoryLabel.setText("in " + category.getString("title"));
+        _categoryLabel.setText("in " + _currentPost.category.slug);
         _toolbar_title = (TextView) findViewById(R.id.toolbar_title);
         _toolbar_title.setText(_titleLabel.getText());
 
@@ -218,10 +199,9 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
-        String app_content = getPostContent();
-        String headerImageURL = String.format("<img src='%s'/>", getPost().getJSONObject("featured_image").getJSONObject("wide-full").getString("url"));
-        if (getPost().getString("video_embed") != null && !getPost().getString("video_embed").isEmpty()) {
-            headerImageURL = getPost().getString("video_embed");
+        String headerImageURL = String.format("<img src='%s'/>", _currentPost.headerURL);
+        if (_currentPost.video_embed != null && !_currentPost.video_embed.isEmpty()) {
+            headerImageURL = _currentPost.video_embed;
         }
 
         String content = null;
@@ -232,7 +212,7 @@ public class MainActivity extends AppCompatActivity {
             e.printStackTrace();
         }
         if (content != null) {
-            webView.loadDataWithBaseURL("file:///android_asset/PostContent.html", String.format(content, headerImageURL, app_content), "text/html", null, null);
+            webView.loadDataWithBaseURL("file:///android_asset/PostContent.html", String.format(content, headerImageURL, _currentPost.app_content), "text/html", null, null);
         }
 
     }
