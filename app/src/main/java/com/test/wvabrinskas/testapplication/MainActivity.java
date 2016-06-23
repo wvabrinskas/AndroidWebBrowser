@@ -156,8 +156,8 @@ public class MainActivity extends AppCompatActivity {
         _authorName = (TextView) findViewById(R.id.author_name);
         _authorName.setText(_currentPost.author.name);
         _categoryLabel = (TextView) findViewById(R.id.category);
-        _categoryLabel.setText("in " + _currentPost.category.slug);
-        _toolbar_title = (TextView) findViewById(R.id.toolbar_title);
+        _categoryLabel.setText("in " + _currentPost.category.name);
+        _toolbar_title = (TextView) findViewById(R.id.toolbar_title);                                                                                                                                                                                              
         _toolbar_title.setText(_titleLabel.getText());
 
         //setup toolbar

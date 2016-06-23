@@ -1,7 +1,4 @@
 package com.test.wvabrinskas.testapplication;
-
-import com.google.android.gms.auth.api.Auth;
-
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -34,7 +31,7 @@ public class Post {
         app_content = post.getString("app_content");
 
         //set up html for excerpt formatting
-        String html = "<html><head><style>body { padding-left:7px; padding-right:7px; }</style><link rel='stylesheet' id='foundation-css'  href='style.css' type='text/css' media='all' />\n</head><body><font color='#555' size='4px'>%s</font></body></html>";
+        String html = "<html><head><style>body { padding-left:7px; padding-right:7px; }</style><link rel='stylesheet' id='foundation-css'  href='style.css' type='text/css' media='all' />\n</head><body><font color='#555' size='3px'>%s</font></body></html>";
         excerpt = String.format(html,post.getString("excerpt"));
 
         date = post.getString("date");
