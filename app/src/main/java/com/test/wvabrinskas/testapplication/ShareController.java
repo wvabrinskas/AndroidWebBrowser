@@ -66,33 +66,32 @@ public class ShareController {
         }
     }
 
-    public void share(ShareType type, Activity app) {  //should possibly pass in post object once created
+    public void share(ShareType type, MainActivity app) {  //should possibly pass in post object once created
 
         Toast newToast = Toast.makeText(app.getApplicationContext(), "", Toast.LENGTH_LONG);
-
+        String shareText = app._currentPost.title + "\n" + app._currentPost.short_url;
         Intent sharingIntent = new Intent(android.content.Intent.ACTION_SEND);
         sharingIntent.setType("text/plain");
 
         if (type == ShareType.SMS) {
-            String shareBody = "Here is the share content body";
-            sharingIntent.putExtra(android.content.Intent.EXTRA_SUBJECT, "Subject Here");
+            String shareBody = shareText;
             sharingIntent.putExtra(android.content.Intent.EXTRA_TEXT, shareBody);
             app.startActivity(Intent.createChooser(sharingIntent, "Share via"));
         }
 
         if (type == ShareType.Facebook) {
             ShareLinkContent linkContent = new ShareLinkContent.Builder()
-                    .setContentTitle("Hello Facebook")
+                    .setContentTitle("Checkout this Elite Daily article!")
                     .setContentDescription(
-                            "The 'Hello Facebook' sample  showcases simple Facebook integration")
-                    .setContentUrl(Uri.parse("http://developers.facebook.com/android"))
+                            app._currentPost.title)
+                    .setContentUrl(Uri.parse(app._currentPost.short_url))
                     .build();
 
             ShareDialog.show(app, linkContent);
         }
 
         if (type == ShareType.Twitter) {
-            shareViaURL("https://twitter.com/intent/tweet?url=http://elitedai.ly/1rfj1zI&text=These%20Quotes%20From%20The%20Police%20Report%20Prove%20Brock%20Turner%E2%80%99s%20Story%20Is%20Even%20Crazier%20Than%20You%20Thought&via=EliteDaily", app);
+            shareViaURL("https://twitter.com/intent/tweet?url=" + urlEncode(app._currentPost.short_url) + "&via=EliteDaily", app);
         }
 
         if (type == ShareType.Whatsapp) {
@@ -102,7 +101,7 @@ public class ShareController {
 
             if (doesPackageExist(sendIntent,app)) {
                 sendIntent.setAction(Intent.ACTION_SEND);
-                sendIntent.putExtra(Intent.EXTRA_TEXT, "This is my text to send.");
+                sendIntent.putExtra(Intent.EXTRA_TEXT, shareText);
                 sendIntent.setType("text/plain");
                 app.startActivity(sendIntent);
             } else {
@@ -116,7 +115,7 @@ public class ShareController {
             i.setType("message/rfc822");
             i.putExtra(Intent.EXTRA_EMAIL  , new String[]{"recipient@example.com"});
             i.putExtra(Intent.EXTRA_SUBJECT, "subject of email");
-            i.putExtra(Intent.EXTRA_TEXT   , "body of email");
+            i.putExtra(Intent.EXTRA_TEXT   , shareText);
             try {
                 app.startActivity(Intent.createChooser(i, "Send mail..."));
             } catch (android.content.ActivityNotFoundException ex) {
@@ -126,9 +125,9 @@ public class ShareController {
         }
 
         if (type == ShareType.Pinterest) {
-            String shareUrl = "http://stackoverflow.com/questions/27388056/";
-            String mediaUrl = "http://cdn.sstatic.net/stackexchange/img/logos/so/so-logo.png";
-            String description = "Pinterest sharing using Android intents";
+            String shareUrl = app._currentPost.short_url;
+            String mediaUrl = app._currentPost.thumbnailURL;
+            String description = app._currentPost.title;
             String url = String.format(
                     "https://www.pinterest.com/pin/create/button/?url=%s&media=%s&description=%s",
                     urlEncode(shareUrl), urlEncode(mediaUrl), description);
@@ -170,7 +169,7 @@ public class ShareController {
             Intent sendIntent = new Intent();
             sendIntent.setPackage("com.facebook");
             if (doesPackageExist(sendIntent,app)){
-                shareViaURL("fb-messenger://share?link=http://elitedaily.com/humor/jean-shorts-are-not-ok/1442249/%23attachment_1442957", app);
+                shareViaURL("fb-messenger://share?link=" + urlEncode(app._currentPost.short_url), app);
             } else {
                 newToast.setText("Facebook messenger not installed");
                 newToast.show();

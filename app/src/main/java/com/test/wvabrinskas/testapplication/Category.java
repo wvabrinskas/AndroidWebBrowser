@@ -9,11 +9,11 @@ import org.json.JSONObject;
 public class Category {
     public String id;
     public String slug;
-    public String name;
+    public String title;
 
     public Category(JSONObject jsonObject) throws JSONException {
         id = jsonObject.getString("id");
         slug = jsonObject.getString("slug");
-        name = jsonObject.getString("name");
+        title = jsonObject.getString("title");
     }
 }

@@ -27,15 +27,12 @@ import java.util.Observable;
 import java.util.Observer;
 import java.util.Scanner;
 
-import org.json.JSONArray;
 import org.json.JSONException;
-import org.json.JSONObject;
 
 import com.facebook.FacebookSdk;
 import com.facebook.appevents.AppEventsLogger;
 
 //Gradle library imports
-import com.facebook.share.widget.ShareButton;
 import com.nikoyuwono.toolbarpanel.ToolbarPanelLayout;
 import com.nikoyuwono.toolbarpanel.ToolbarPanelListener;
 
@@ -47,7 +44,7 @@ public class MainActivity extends AppCompatActivity {
     private static final String postID = "1533007"; //post id with video header = 1530508
 
     //post
-    private Post _currentPost;
+    public Post _currentPost;
 
     //share buttons
     private Button _facebookShare;
@@ -156,8 +153,8 @@ public class MainActivity extends AppCompatActivity {
         _authorName = (TextView) findViewById(R.id.author_name);
         _authorName.setText(_currentPost.author.name);
         _categoryLabel = (TextView) findViewById(R.id.category);
-        _categoryLabel.setText("in " + _currentPost.category.name);
-        _toolbar_title = (TextView) findViewById(R.id.toolbar_title);                                                                                                                                                                                              
+        _categoryLabel.setText("in " + _currentPost.category.title);
+        _toolbar_title = (TextView) findViewById(R.id.toolbar_title);
         _toolbar_title.setText(_titleLabel.getText());
 
         //setup toolbar
