@@ -1,6 +1,7 @@
 package com.test.wvabrinskas.testapplication;
 
 import android.content.Context;
+import android.graphics.Color;
 import android.graphics.Typeface;
 import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.Drawable;
@@ -20,6 +21,7 @@ import android.widget.ImageView;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
+
 import java.io.IOException;
 import java.util.Observable;
 import java.util.Observer;
@@ -67,6 +69,7 @@ public class MainActivity extends AppCompatActivity {
     private ImageView _authorAvatarView;
     private Drawable _authorAvatar;
     private Typeface _icomoon;
+    private WebView _excerptView;
 
     //custom ui elements
     private ToolbarPanelLayout _toolbarLayout;
@@ -136,15 +139,25 @@ public class MainActivity extends AppCompatActivity {
         return app_content;
     }
 
+    private String getExcerpt() throws JSONException {
+        String excerpt = getPost().getString("excerpt");
+        String html = "<html><head><style>body { padding-left:7px; padding-right:7px; }</style><link rel='stylesheet' id='foundation-css'  href='style.css' type='text/css' media='all' />\n</head><body><font color='#555' size='4px'>%s</font></body></html>";
+        return String.format(html, excerpt);
+    }
+
     public void setup() throws JSONException, IOException {
         setupShareButtons();
         _authorAvatarView = (ImageView) findViewById(R.id.authorAvatar);
+
+        _excerptView = (WebView) findViewById(R.id.excerpt_view);
+        _excerptView.setBackgroundColor(Color.TRANSPARENT);
+        _excerptView.loadData(getExcerpt(), "text/html", null);
 
         new Thread(new Runnable() {
             public void run() {
                 try {
                     _authorAvatar = _jsonParser.drawableFromUrl(getPost().getJSONObject("author").getJSONObject("avatar").getString("url"));
-                    ThreadObserver.getInstance().postNotification("GotImageObserved",_authorAvatar);
+                    ThreadObserver.getInstance().postNotification("GotImageObserved", _authorAvatar);
                 } catch (IOException e) {
                     e.printStackTrace();
                 } catch (JSONException e) {
@@ -215,17 +228,17 @@ public class MainActivity extends AppCompatActivity {
         try {
             content = new Scanner(getAssets().open(String.format("PostContent.html"))).useDelimiter("\\A").next();
         } catch (IOException e) {
-            Log.d(TAG,"post content not found =( ");
+            Log.d(TAG, "post content not found =( ");
             e.printStackTrace();
         }
         if (content != null) {
-            webView.loadDataWithBaseURL("file:///android_asset/PostContent.html",String.format(content,headerImageURL,app_content),"text/html",null,null);
+            webView.loadDataWithBaseURL("file:///android_asset/PostContent.html", String.format(content, headerImageURL, app_content), "text/html", null, null);
         }
 
     }
 
     private void setupShareButtons() {
-        _icomoon = Typeface.createFromAsset(getAssets(),"fonts/icomoon.ttf");
+        _icomoon = Typeface.createFromAsset(getAssets(), "fonts/icomoon.ttf");
 
         _facebookShare = (Button) findViewById(R.id.facebook_share);
         _facebookShare.setTypeface(_icomoon);
@@ -257,7 +270,7 @@ public class MainActivity extends AppCompatActivity {
         }
     }
 
-    private Toast getToast(String text) {
+    public Toast getToast(String text) {
         Toast newToast = Toast.makeText(getApplicationContext(), text, Toast.LENGTH_LONG);
         return newToast;
     }
@@ -294,7 +307,7 @@ public class MainActivity extends AppCompatActivity {
             type = ShareController.ShareType.Email;
         }
         ShareController shareController = ShareController.getInstance();
-        shareController.share(type,this);
+        shareController.share(type, this);
     }
 
 

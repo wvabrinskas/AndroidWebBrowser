@@ -124,10 +124,19 @@
                 android:paddingEnd="0dp"
                 android:textSize="12dp" />
 
+            <WebView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:id="@+id/excerpt_view"
+                android:layout_below="@+id/authorAvatar"
+                android:layout_alignParentLeft="true"
+                android:layout_alignParentRight="true"
+                android:layout_alignParentBottom="false" />
+
             <GridLayout
                 android:layout_width="fill_parent"
                 android:layout_height="match_parent"
-                android:layout_below="@+id/authorAvatar"
+                android:layout_below="@+id/excerpt_view"
                 android:layout_alignParentLeft="true"
                 android:rowOrderPreserved="true"
                 android:id="@+id/share_button_grid"
@@ -142,7 +151,7 @@
                 android:clipToPadding="false"
                 android:useDefaultMargins="true"
                 android:paddingBottom="50dp"
-                android:paddingTop="150dp"
+                android:paddingTop="-30dp"
                 android:paddingLeft="30dp"
                 android:paddingRight="30dp">
 
