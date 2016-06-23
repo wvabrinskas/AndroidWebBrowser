@@ -66,7 +66,7 @@ public class ShareController {
         }
     }
 
-    public void share(ShareType type, MainActivity app) {  //should possibly pass in post object once created
+    public void share(ShareType type, final MainActivity app) {  //should possibly pass in post object once created
 
         Toast newToast = Toast.makeText(app.getApplicationContext(), "", Toast.LENGTH_LONG);
         String shareText = app._currentPost.title + "\n" + app._currentPost.short_url;
@@ -137,14 +137,13 @@ public class ShareController {
 
         if (type == ShareType.Copy) {
             ClipboardManager clipboard = (ClipboardManager) app.getSystemService(app.CLIPBOARD_SERVICE);
-            ClipData clip = ClipData.newPlainText("label", "Text to copy"); //this is where the share controller will access the post object and get its url.
+            ClipData clip = ClipData.newPlainText("label", "Text to copy");
             clipboard.setPrimaryClip(clip);
             newToast.setText("Copied article url");
             newToast.show();
         }
 
         if (type == ShareType.Browser) {
-            final Activity shareApp = app;
             AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(app);
             alertDialogBuilder.setTitle("Elite Daily");
             alertDialogBuilder
@@ -152,8 +151,8 @@ public class ShareController {
                     .setCancelable(false)
                     .setPositiveButton("Yes",new DialogInterface.OnClickListener() {
                         public void onClick(DialogInterface dialog,int id) {
-                            shareViaURL("http://elitedaily.com",shareApp); //TODO: get article url
-                            shareApp.finish();
+                            shareViaURL(app._currentPost.url,app);
+                            app.finish();
                         }
                     })
                     .setNegativeButton("No",new DialogInterface.OnClickListener() {
